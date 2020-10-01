@@ -1,0 +1,19 @@
+{
+  "name": "jamstackforum",
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "start": "next start",
+    "build": "next build"
+  },
+  "dependencies": {
+    "next": "9.5.3",
+    "next-google-fonts": "1.2.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  },
+  "devDependencies": {
+    "postcss-preset-env": "6.7.0",
+    "tailwindcss": "1.8.10"
+  }
+}
