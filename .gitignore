@@ -3,7 +3,7 @@
 
 # Environment variables
 !.env
-.env.local
+.env.*
 
 # Dependency directories
 node_modules
