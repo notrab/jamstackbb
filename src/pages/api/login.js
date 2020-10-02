@@ -1,16 +1,55 @@
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+
+import { hasuraAdminClient, gql } from "../../lib/hasura-admin-client";
+
+const GetUserByEmail = gql`
+  query GetUserByEmail($email: String!) {
+    users(where: { email: { _eq: $email } }) {
+      id
+      name
+      email
+      password
+    }
+  }
+`;
+
 export default async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password: rawPassword } = req.body;
 
-  // 1. Lookup user from Hasura
-  const user = { name: "Jamie" };
+  const {
+    users: [foundUser],
+  } = await hasuraAdminClient.request(GetUserByEmail, {
+    email,
+  });
 
-  // 2. If no user found, return error
+  if (!foundUser)
+    return res.status(401).json({
+      message: "Invalid email/password.",
+    });
 
-  // 3. Do the passwords match?
+  const { password, ...user } = foundUser;
 
-  // 4. Create a JWT
-  const token = "abc";
+  const passwordsMatch = await bcrypt.compare(rawPassword, password);
 
-  // 5. Return the JWT as token + user
+  if (!passwordsMatch)
+    return res.status(401).json({
+      message: "Invalid email/password.",
+    });
+
+  const token = jwt.sign(
+    {
+      "https://hasura.io/jwt/claims": {
+        "x-hasura-allowed-roles": ["guest", "user"],
+        "x-hasura-default-role": "user",
+        "x-hasura-user-id": user.id,
+      },
+    },
+    process.env.HASURA_GRAPHQL_JWT_SECRET,
+    {
+      subject: user.id,
+    }
+  );
+
   res.status(200).json({ token, ...user });
 };

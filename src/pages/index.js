@@ -16,7 +16,7 @@ export default function IndexPage() {
           <button
             onClick={() =>
               login({
-                email: "j@j.com",
+                email: "j@jjj.com",
                 password: "abc123",
               })
             }
@@ -26,8 +26,8 @@ export default function IndexPage() {
           <button
             onClick={() =>
               register({
-                name: "John",
-                email: "j@j.com",
+                name: "Nathan",
+                email: "j@jjj.com",
                 password: "abc123",
               })
             }
