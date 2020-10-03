@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 
 import { useAuthState, useAuthDispatch } from "../context/auth";
 
+import Layout from "../components/Layout";
+
 export default function RegisterPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuthState();
@@ -36,7 +38,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <>
+    <Layout>
       <h1 className="text-3xl">Create an account</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -86,6 +88,6 @@ export default function RegisterPage() {
           </button>
         </div>
       </form>
-    </>
+    </Layout>
   );
 }
