@@ -13,6 +13,7 @@ export default function Layout({ children }) {
             <>
               <p>Hello {user.name}</p>
               <button onClick={logout}>Logout</button>
+              <Link href="/ask">Ask A Question</Link>
             </>
           ) : (
             <>
