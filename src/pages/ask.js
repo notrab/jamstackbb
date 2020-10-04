@@ -72,7 +72,7 @@ export default function AskPage({ categories }) {
         message,
       });
 
-      router.push(`/threads/${insert_threads_one.id}`);
+      router.push(`/thread/${insert_threads_one.id}`);
     } catch (err) {
       console.log(err);
     }
