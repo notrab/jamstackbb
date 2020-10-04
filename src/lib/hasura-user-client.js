@@ -5,9 +5,7 @@ export const hasuraUserClient = () => {
   let token;
 
   if (typeof window !== "undefined") {
-    const user = JSON.parse(
-      JSON.parse(localStorage.getItem("jamstackforum-auth"))
-    );
+    const user = JSON.parse(localStorage.getItem("jamstackforum-auth"));
 
     token = user?.token;
   }

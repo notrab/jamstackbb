@@ -1,9 +1,65 @@
-import Layout from "../components/Layout";
+import useSWR from "swr";
 
-export default function IndexPage() {
+import Layout from "../components/Layout";
+import ThreadList from "../components/ThreadList";
+
+import { gql, hasuraUserClient } from "../lib/hasura-user-client";
+
+const GetThreads = gql`
+  {
+    threads(order_by: { posts_aggregate: { max: { created_at: desc } } }) {
+      id
+      title
+      answered
+      locked
+      author {
+        name
+      }
+      category {
+        id
+        name
+      }
+      posts(limit: 1, order_by: { created_at: desc }) {
+        id
+        message
+        created_at
+        author {
+          name
+        }
+      }
+      posts_aggregate {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+`;
+
+export const getStaticProps = async () => {
+  const hasura = hasuraUserClient();
+
+  const initialData = await hasura.request(GetThreads);
+
+  return {
+    props: {
+      initialData,
+    },
+    revalidate: 1,
+  };
+};
+
+export default function IndexPage({ initialData }) {
+  const hasura = hasuraUserClient();
+
+  const { data } = useSWR(GetThreads, (query) => hasura.request(query), {
+    initialData,
+    revalidateOnMount: true,
+  });
+
   return (
     <Layout>
-      <p>Welcome to Jamstackforum!</p>
+      <ThreadList threads={data.threads} />
     </Layout>
   );
 }
