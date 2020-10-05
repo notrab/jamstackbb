@@ -89,6 +89,8 @@ export default function ThreadPage({ initialData }) {
     }
   );
 
+  if (!isFallback && !data) return <p>No such thread found</p>;
+
   const handlePost = async ({ message }) => {
     try {
       const { insert_posts_one } = await hasura.request(InsertPost, {
@@ -107,6 +109,8 @@ export default function ThreadPage({ initialData }) {
       console.log(err);
     }
   };
+
+  if (isFallback) return <Layout>Loading thread</Layout>;
 
   return (
     <Layout>
