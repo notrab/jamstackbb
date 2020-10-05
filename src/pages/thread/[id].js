@@ -78,7 +78,7 @@ export const getStaticProps = async ({ params }) => {
 export default function ThreadPage({ initialData }) {
   const hasura = hasuraUserClient();
   const { query } = useRouter();
-  const { id } = query;
+  const { id, isFallback } = query;
 
   const { data, mutate } = useSWR(
     [GetThreadById, id],
