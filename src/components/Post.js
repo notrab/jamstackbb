@@ -24,7 +24,7 @@ export default function Post({ id, message, created_at, author }) {
         <h3 className="text-xl font-semibold">{author.name}</h3>
         <div>{message}</div>
         <div>
-          <span className="text-sm">{timeago}</span>
+          <span className="text-sm text-gray-600">{timeago}</span>
         </div>
       </div>
     </div>

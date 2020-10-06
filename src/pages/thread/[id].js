@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
+import { useAuthState } from "../../context/auth";
+
 import Layout from "../../components/Layout";
 import PostList from "../../components/PostList";
 import PostForm from "../../components/PostForm";
@@ -76,6 +78,7 @@ export const getStaticProps = async ({ params }) => {
 };
 
 export default function ThreadPage({ initialData }) {
+  const { isAuthenticated } = useAuthState();
   const hasura = hasuraUserClient();
   const { query } = useRouter();
   const { id, isFallback } = query;
@@ -91,7 +94,7 @@ export default function ThreadPage({ initialData }) {
 
   if (!isFallback && !data) return <p>No such thread found</p>;
 
-  const handlePost = async ({ message }) => {
+  const handlePost = async ({ message }, { target }) => {
     try {
       const { insert_posts_one } = await hasura.request(InsertPost, {
         threadId: id,
@@ -105,6 +108,8 @@ export default function ThreadPage({ initialData }) {
           posts: [...data.threads_by_pk.posts, insert_posts_one],
         },
       });
+
+      target.reset();
     } catch (err) {
       console.log(err);
     }
@@ -119,7 +124,9 @@ export default function ThreadPage({ initialData }) {
       </h1>
 
       <PostList posts={data.threads_by_pk.posts} />
-      {!data.threads_by_pk.locked && <PostForm onSubmit={handlePost} />}
+      {!data.threads_by_pk.locked && isAuthenticated && (
+        <PostForm onSubmit={handlePost} />
+      )}
     </Layout>
   );
 }
