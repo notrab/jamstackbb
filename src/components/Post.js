@@ -1,4 +1,5 @@
 import formatRelative from "date-fns/formatRelative";
+import Markdown from "react-markdown";
 
 const today = new Date();
 
@@ -22,7 +23,9 @@ export default function Post({ id, message, created_at, author }) {
       </div>
       <div className="flex-1">
         <h3 className="text-xl font-semibold">{author.name}</h3>
-        <div>{message}</div>
+        <div>
+          <Markdown source={message} />
+        </div>
         <div>
           <span className="text-sm text-gray-600">{timeago}</span>
         </div>

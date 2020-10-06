@@ -1,12 +1,16 @@
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import ReactMde from "react-mde";
+import Markdown from "react-markdown";
 
 export default function PostForm({ onSubmit }) {
   const {
     handleSubmit,
-    register,
+    control,
     errors,
     formState: { isSubmitting },
   } = useForm();
+  const [selectedTab, setSelectedTab] = useState("write");
 
   return (
     <div className="p-6 flex space-x-3">
@@ -24,15 +28,22 @@ export default function PostForm({ onSubmit }) {
       <div className="flex-1">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <textarea
+            <Controller
+              control={control}
               name="message"
-              id="message"
-              ref={register({
+              defaultValue=""
+              rules={{
                 required: "You must provide a message to reply.",
-              })}
-              placeholder="Reply to thread"
-              className="w-full bg-gray-100 rounded p-3"
-              rows={5}
+              }}
+              as={
+                <ReactMde
+                  selectedTab={selectedTab}
+                  onTabChange={setSelectedTab}
+                  generateMarkdownPreview={(markdown) =>
+                    Promise.resolve(<Markdown source={markdown} />)
+                  }
+                />
+              }
             />
             {errors.message && <span>{errors.message.message}</span>}
           </div>
