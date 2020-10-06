@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import ReactMde from "react-mde";
+import Markdown from "react-markdown";
 
 import { gql, hasuraAdminClient } from "../lib/hasura-admin-client";
 import { hasuraUserClient } from "../lib/hasura-user-client";
@@ -60,9 +63,11 @@ export default function AskPage({ categories }) {
   const {
     handleSubmit,
     register,
+    control,
     errors,
     formState: { isSubmitting },
   } = useForm();
+  const [selectedTab, setSelectedTab] = useState("write");
 
   const onSubmit = async ({ categoryId, title, message }) => {
     try {
@@ -111,18 +116,31 @@ export default function AskPage({ categories }) {
           {errors.title && <span>{errors.title.message}</span>}
         </div>
         <div>
-          <textarea
+          <Controller
+            control={control}
             name="message"
-            id="message"
-            ref={register({
+            defaultValue=""
+            rules={{
               required: "You must provide a message for your thread.",
-            })}
-            placeholder="Write a message"
+            }}
+            as={
+              <ReactMde
+                selectedTab={selectedTab}
+                onTabChange={setSelectedTab}
+                generateMarkdownPreview={(markdown) =>
+                  Promise.resolve(<Markdown source={markdown} />)
+                }
+              />
+            }
           />
           {errors.message && <span>{errors.message.message}</span>}
         </div>
         <div>
-          <button type="submit" disabled={isSubmitting}>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="bg-purple-500 text-white p-3 rounded"
+          >
             Post
           </button>
         </div>
