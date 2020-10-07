@@ -11,16 +11,16 @@ export default function Layout({ children }) {
       <header className="bg-white py-6 shadow-sm">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center justify-between">
-            <div>
+            <div className="flex space-x-1">
               <Link href="/">
                 <a>Home</a>
               </Link>
               {isAuthenticated ? (
-                <>
+                <span className="flex space-x-1">
                   <p>Hello {user.name}</p>
                   <button onClick={logout}>Logout</button>
-                  <Link href="/ask">Ask A Question</Link>
-                </>
+                  <Link href="/new">Post new thread</Link>
+                </span>
               ) : (
                 <>
                   <Link href="/login">Login</Link>

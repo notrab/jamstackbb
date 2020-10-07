@@ -57,7 +57,7 @@ export const getStaticProps = async () => {
   };
 };
 
-export default function AskPage({ categories }) {
+export default function NewThreadPage({ categories }) {
   const router = useRouter();
   const hasura = hasuraUserClient();
   const {
@@ -85,7 +85,7 @@ export default function AskPage({ categories }) {
 
   return (
     <Layout>
-      <h1 className="text-3xl">Ask A Question</h1>
+      <h1 className="text-3xl">Post new thread</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
