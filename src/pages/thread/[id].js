@@ -52,6 +52,7 @@ const InsertPost = gql`
       id
       message
       created_at
+      updated_at
       author {
         id
         name
