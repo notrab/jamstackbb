@@ -10,21 +10,30 @@ export default function Layout({ children }) {
     <>
       <header className="bg-white py-6 shadow-sm">
         <div className="max-w-4xl mx-auto px-6">
-          <Link href="/">
-            <a>Home</a>
-          </Link>
-          {isAuthenticated ? (
-            <>
-              <p>Hello {user.name}</p>
-              <button onClick={logout}>Logout</button>
-              <Link href="/ask">Ask A Question</Link>
-            </>
-          ) : (
-            <>
-              <Link href="/login">Login</Link>
-              <Link href="/register">Register</Link>
-            </>
-          )}
+          <div className="flex items-center justify-between">
+            <div>
+              <Link href="/">
+                <a>Home</a>
+              </Link>
+              {isAuthenticated ? (
+                <>
+                  <p>Hello {user.name}</p>
+                  <button onClick={logout}>Logout</button>
+                  <Link href="/ask">Ask A Question</Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/login">Login</Link>
+                  <Link href="/register">Register</Link>
+                </>
+              )}
+            </div>
+            <div>
+              <Link href="/today">
+                <a>Today's Posts</a>
+              </Link>
+            </div>
+          </div>
         </div>
       </header>
 
