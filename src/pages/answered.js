@@ -1,5 +1,3 @@
-import startOfToday from "date-fns/startOfToday";
-import endOfToday from "date-fns/endOfToday";
 import useSWR from "swr";
 
 import Layout from "../components/Layout";
@@ -7,18 +5,14 @@ import ThreadList from "../components/ThreadList";
 
 import { gql, hasuraUserClient } from "../lib/hasura-user-client";
 
-const from = new Date(startOfToday()).toISOString();
-const to = new Date(endOfToday()).toISOString();
-
-const GetTodaysPosts = gql`
-  query GetTodaysPosts($from: timestamptz!, $to: timestamptz!) {
+const GetAnsweredPosts = gql`
+  query GetAnsweredPosts {
     threads(
-      where: { posts: { created_at: { _gte: $from, _lte: $to } } }
+      where: { answered: { _eq: true } }
       order_by: { posts_aggregate: { max: { created_at: desc } } }
     ) {
       id
       title
-      answered
       locked
       author {
         name
@@ -47,10 +41,7 @@ const GetTodaysPosts = gql`
 export const getStaticProps = async () => {
   const hasura = hasuraUserClient();
 
-  const initialData = await hasura.request(GetTodaysPosts, {
-    from,
-    to,
-  });
+  const initialData = await hasura.request(GetAnsweredPosts);
 
   return {
     props: {
@@ -60,21 +51,17 @@ export const getStaticProps = async () => {
   };
 };
 
-export default function TodaysPostsPage({ initialData }) {
+export default function AnsweredPostsPage({ initialData }) {
   const hasura = hasuraUserClient();
 
-  const { data } = useSWR(
-    GetTodaysPosts,
-    (query) => hasura.request(query, { from, to }),
-    {
-      initialData,
-      revalidateOnMount: true,
-    }
-  );
+  const { data } = useSWR(GetAnsweredPosts, (query) => hasura.request(query), {
+    initialData,
+    revalidateOnMount: true,
+  });
 
   return (
     <Layout>
-      <h1 className="text-3xl">Today's posts</h1>
+      <h1 className="text-3xl">Answered posts</h1>
       <ThreadList threads={data.threads} />
     </Layout>
   );
