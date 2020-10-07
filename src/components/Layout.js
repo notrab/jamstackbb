@@ -28,12 +28,15 @@ export default function Layout({ children }) {
                 </>
               )}
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center space-x-3">
               <Link href="/today">
                 <a>Today's Posts</a>
               </Link>
               <Link href="/answered">
                 <a>Answered Posts</a>
+              </Link>
+              <Link href="/unanswered">
+                <a>Uanswered Posts</a>
               </Link>
             </div>
           </div>
