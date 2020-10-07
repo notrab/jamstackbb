@@ -1,15 +1,25 @@
 import formatRelative from "date-fns/formatRelative";
 import Markdown from "react-markdown";
 
+import Reactions from "./Reactions";
+
 const today = new Date();
 
-export default function Post({ id, message, created_at, author }) {
+export default function Post({
+  id,
+  message,
+  created_at,
+  author,
+  likes,
+  likes_aggregate,
+  actions,
+}) {
   const timeago = formatRelative(Date.parse(created_at), today, {
     weekStartsOn: 1,
   });
 
   return (
-    <div key={id} className="p-6 flex space-x-3">
+    <div className="p-6 flex space-x-3">
       <div>
         <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
           <svg
@@ -26,8 +36,16 @@ export default function Post({ id, message, created_at, author }) {
         <div>
           <Markdown source={message} />
         </div>
-        <div>
+        <div className="pt-3">
           <span className="text-sm text-gray-600">{timeago}</span>
+        </div>
+        <div>
+          <Reactions
+            postId={id}
+            likes={likes}
+            likes_aggregate={likes_aggregate}
+            {...actions}
+          />
         </div>
       </div>
     </div>
