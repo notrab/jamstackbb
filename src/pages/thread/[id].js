@@ -27,6 +27,7 @@ const GetThreadById = gql`
         id
         message
         created_at
+        updated_at
         author {
           id
           name
@@ -73,6 +74,7 @@ const UpdatePost = gql`
     update_posts_by_pk(pk_columns: { id: $id }, _set: { message: $message }) {
       id
       message
+      updated_at
     }
   }
 `;

@@ -13,6 +13,7 @@ export default function Post({
   id,
   message,
   created_at,
+  updated_at,
   author,
   likes,
   likes_aggregate,
@@ -20,12 +21,15 @@ export default function Post({
 }) {
   const { isAuthenticated, user } = useAuthState();
   const { handleLike, handleUnlike, handleUpdate, handleDelete } = actions;
-  const timeago = formatRelative(Date.parse(created_at), today, {
+  const formattedCreatedAt = formatRelative(Date.parse(created_at), today, {
+    weekStartsOn: 1,
+  });
+  const formattedUpdatedAt = formatRelative(Date.parse(updated_at), today, {
     weekStartsOn: 1,
   });
   const isAuthor = isAuthenticated && author.id === user.id;
   const deletePost = () => handleDelete({ id });
-
+  const updated = created_at !== updated_at;
   const [editing, setEditing] = useState(false);
 
   const toggleEditing = useCallback(() => {
@@ -91,7 +95,14 @@ export default function Post({
           )}
         </div>
         <div className="pt-6">
-          <span className="text-sm text-gray-600">{timeago}</span>
+          <span className="text-sm text-gray-600">
+            Posted {formattedCreatedAt}
+          </span>
+          {updated && (
+            <span className="text-sm text-gray-600">
+              , and updated {formattedUpdatedAt}
+            </span>
+          )}
         </div>
         <div>
           <Reactions
