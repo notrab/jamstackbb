@@ -23,6 +23,9 @@ const GetThreadById = gql`
       id
       title
       locked
+      author {
+        id
+      }
       posts(order_by: { created_at: asc }) {
         id
         message
@@ -76,6 +79,15 @@ const UpdatePost = gql`
       id
       message
       updated_at
+    }
+  }
+`;
+
+const UpdateLockedStatus = gql`
+  mutation UpdateLockedStatus($id: uuid!, $locked: Boolean) {
+    update_threads_by_pk(pk_columns: { id: $id }, _set: { locked: $locked }) {
+      id
+      locked
     }
   }
 `;
@@ -134,7 +146,7 @@ export const getStaticProps = async ({ params }) => {
 };
 
 export default function ThreadPage({ initialData }) {
-  const { isAuthenticated } = useAuthState();
+  const { isAuthenticated, user } = useAuthState();
   const hasura = hasuraUserClient();
   const { query } = useRouter();
   const { id, isFallback } = query;
@@ -149,6 +161,8 @@ export default function ThreadPage({ initialData }) {
   );
 
   if (!isFallback && !data) return <p>No such thread found</p>;
+
+  const isAuthor = isAuthenticated && data.threads_by_pk.author.id === user.id;
 
   const handlePost = async ({ message }, { target }) => {
     try {
@@ -203,6 +217,25 @@ export default function ThreadPage({ initialData }) {
     }
   };
 
+  const handleLock = async () => {
+    try {
+      const { update_threads_by_pk } = await hasura.request(
+        UpdateLockedStatus,
+        {
+          id,
+          locked: !data.threads_by_pk.locked,
+        }
+      );
+
+      mutate({
+        ...data,
+        ...update_threads_by_pk,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleLike = async ({ postId }) => {
     await hasura.request(InsertLike, { postId });
 
@@ -236,6 +269,18 @@ export default function ThreadPage({ initialData }) {
       <h1 className="text-2xl md:text-3xl font-semibold">
         {data.threads_by_pk.title}
       </h1>
+      <div className="flex items-center">
+        {data.threads_by_pk.locked && (
+          <span className="bg-red-300 text-red-800 px-2 py-1 rounded-full uppercase text-xs">
+            Locked
+          </span>
+        )}
+        {isAuthor && (
+          <button onClick={handleLock} className="appearance-none p-1">
+            {data.threads_by_pk.locked ? "Unlock" : "Lock"}
+          </button>
+        )}
+      </div>
 
       <PostList
         posts={data.threads_by_pk.posts}
