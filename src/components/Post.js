@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import formatRelative from "date-fns/formatRelative";
 import Markdown from "react-markdown";
 
@@ -21,12 +21,20 @@ export default function Post({
 }) {
   const { isAuthenticated, user } = useAuthState();
   const { handleLike, handleUnlike, handleUpdate, handleDelete } = actions;
-  const formattedCreatedAt = formatRelative(Date.parse(created_at), today, {
-    weekStartsOn: 1,
-  });
-  const formattedUpdatedAt = formatRelative(Date.parse(updated_at), today, {
-    weekStartsOn: 1,
-  });
+  const formattedCreatedAt = useMemo(
+    () =>
+      formatRelative(Date.parse(created_at), today, {
+        weekStartsOn: 1,
+      }),
+    [created_at]
+  );
+  const formattedUpdatedAt = useMemo(
+    () =>
+      formatRelative(Date.parse(updated_at), today, {
+        weekStartsOn: 1,
+      }),
+    [updated_at]
+  );
   const isAuthor = isAuthenticated && author.id === user.id;
   const deletePost = () => handleDelete({ id });
   const updated = created_at !== updated_at;
@@ -42,7 +50,7 @@ export default function Post({
   };
 
   return (
-    <div className="p-6 flex space-x-3">
+    <div id={`post-${id}`} className="p-6 flex space-x-3">
       <div>
         <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
           <svg
