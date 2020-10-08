@@ -23,6 +23,7 @@ const GetThreadById = gql`
       id
       title
       locked
+      answered
       author {
         id
       }
@@ -88,6 +89,18 @@ const UpdateLockedStatus = gql`
     update_threads_by_pk(pk_columns: { id: $id }, _set: { locked: $locked }) {
       id
       locked
+    }
+  }
+`;
+
+const UpdateAnsweredStatus = gql`
+  mutation UpdateAnsweredStatus($id: uuid!, $answered: Boolean) {
+    update_threads_by_pk(
+      pk_columns: { id: $id }
+      _set: { answered: $answered }
+    ) {
+      id
+      answered
     }
   }
 `;
@@ -236,6 +249,25 @@ export default function ThreadPage({ initialData }) {
     }
   };
 
+  const handleAnswer = async () => {
+    try {
+      const { update_threads_by_pk } = await hasura.request(
+        UpdateAnsweredStatus,
+        {
+          id,
+          answered: !data.threads_by_pk.answered,
+        }
+      );
+
+      mutate({
+        ...data,
+        ...update_threads_by_pk,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleLike = async ({ postId }) => {
     await hasura.request(InsertLike, { postId });
 
@@ -275,10 +307,22 @@ export default function ThreadPage({ initialData }) {
             Locked
           </span>
         )}
+        {data.threads_by_pk.answered && (
+          <span className="bg-green-300 text-green-800 px-2 py-1 rounded-full uppercase text-xs">
+            Answered
+          </span>
+        )}
         {isAuthor && (
-          <button onClick={handleLock} className="appearance-none p-1">
-            {data.threads_by_pk.locked ? "Unlock" : "Lock"}
-          </button>
+          <>
+            <button onClick={handleLock} className="appearance-none p-1">
+              {data.threads_by_pk.locked ? "Unlock" : "Lock"}
+            </button>
+            <button onClick={handleAnswer} className="appearance-none p-1">
+              {data.threads_by_pk.answered
+                ? "Mark as unanswered"
+                : "Mark as answered"}
+            </button>
+          </>
         )}
       </div>
 
