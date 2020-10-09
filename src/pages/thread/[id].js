@@ -105,6 +105,14 @@ const UpdateAnsweredStatus = gql`
   }
 `;
 
+const DeleteThreadById = gql`
+  mutation DeleteThreadById($id: uuid!) {
+    delete_threads_by_pk(id: $id) {
+      id
+    }
+  }
+`;
+
 const InsertLike = gql`
   mutation InsertLike($postId: uuid!) {
     insert_likes_one(object: { post_id: $postId }) {
@@ -161,8 +169,8 @@ export const getStaticProps = async ({ params }) => {
 export default function ThreadPage({ initialData }) {
   const { isAuthenticated, user } = useAuthState();
   const hasura = hasuraUserClient();
-  const { query } = useRouter();
-  const { id, isFallback } = query;
+  const router = useRouter();
+  const { id, isFallback } = router.query;
 
   const { data, mutate } = useSWR(
     [GetThreadById, id],
@@ -173,7 +181,12 @@ export default function ThreadPage({ initialData }) {
     }
   );
 
-  if (!isFallback && !data) return <p>No such thread found</p>;
+  if (!isFallback && !data)
+    return (
+      <Layout>
+        <p>No such thread found</p>
+      </Layout>
+    );
 
   const isAuthor = isAuthenticated && data.threads_by_pk.author.id === user.id;
 
@@ -268,6 +281,18 @@ export default function ThreadPage({ initialData }) {
     }
   };
 
+  const handleDeleteThread = async () => {
+    try {
+      await hasura.request(DeleteThreadById, {
+        id,
+      });
+
+      router.push("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleLike = async ({ postId }) => {
     await hasura.request(InsertLike, { postId });
 
@@ -324,6 +349,12 @@ export default function ThreadPage({ initialData }) {
               {data.threads_by_pk.answered
                 ? "Mark as unanswered"
                 : "Mark as answered"}
+            </button>
+            <button
+              onClick={handleDeleteThread}
+              className="appearance-none p-1"
+            >
+              Delete thread
             </button>
           </>
         )}
