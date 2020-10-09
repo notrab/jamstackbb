@@ -85,7 +85,11 @@ export default function NewThreadPage({ categories }) {
 
   return (
     <Layout>
-      <h1 className="text-3xl">Post new thread</h1>
+      <div className="py-6">
+        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+          Post new thread
+        </h1>
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
