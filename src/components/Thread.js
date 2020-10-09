@@ -20,11 +20,14 @@ export default function Thread({
   });
 
   return (
-    <div key={id} className="py-4 md:p-5 flex space-x-5 md:hover:bg-gray-100">
+    <div
+      key={id}
+      className="py-4 md:p-5 flex items-start space-x-5 md:hover:bg-gray-100"
+    >
       <div>
-        <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
+        <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-200">
           <svg
-            className="h-full w-full text-gray-500"
+            className="h-full w-full text-gray-600"
             fill="currentColor"
             viewBox="0 0 24 24"
           >
@@ -60,13 +63,13 @@ export default function Thread({
               </span>
             )}
             <Link href={`/thread/${id}`}>
-              <a className="md:text-lg font-semibold text-gray-900 hover:text-green-500">
+              <a className="md:text-lg font-semibold text-gray-800 hover:text-primary-500">
                 {title}
               </a>
             </Link>
           </div>
           {hasReplies && (
-            <span className="hidden md:inline-flex items-center ml-3 text-gray-500">
+            <span className="hidden md:inline-flex items-center ml-3 text-gray-600">
               <svg
                 className="fill-current w-4 h-4"
                 xmlns="http://www.w3.org/2000/svg"
@@ -75,14 +78,14 @@ export default function Thread({
                 <path fill="none" d="M0 0h24v24H0z" />
                 <path d="M7.291 20.824L2 22l1.176-5.291A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10a9.956 9.956 0 0 1-4.709-1.176zm.29-2.113l.653.35A7.955 7.955 0 0 0 12 20a8 8 0 1 0-8-8c0 1.334.325 2.618.94 3.766l.349.653-.655 2.947 2.947-.655z" />
               </svg>
-              <span className="ml-1 text-gray-500 text-xs">{count}</span>
+              <span className="ml-1 text-gray-600 text-xs">{count}</span>
             </span>
           )}
         </h3>
-        <div className="inline-flex items-center md:space-x-3 py-1">
-          <span className="hidden md:inline-block h-5 w-5 rounded-full overflow-hidden bg-gray-100">
+        <div className="inline-flex items-center md:space-x-3 py-3">
+          <span className="hidden md:inline-block h-5 w-5 rounded-full overflow-hidden bg-gray-200">
             <svg
-              className="h-full w-full text-gray-500"
+              className="h-full w-full text-gray-600"
               fill="currentColor"
               viewBox="0 0 24 24"
             >
@@ -95,7 +98,7 @@ export default function Thread({
               <>
                 <span className="mx-1">in</span>
                 <Link href={`/category/${category.id}`}>
-                  <a className="text-gray-900 hover:text-green-500">
+                  <a className="text-gray-600 hover:text-primary-500">
                     {category.name}
                   </a>
                 </Link>

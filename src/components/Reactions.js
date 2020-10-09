@@ -18,11 +18,11 @@ export default function Reactions({
     : false;
 
   return (
-    <div className="pt-3 inline-flex items-center">
-      <div className="text-purple-500 mr-2">
+    <div className="pt-3 flex items-center">
+      <div className="text-primary-500 mr-2">
         {isAuthenticated ? (
           <button
-            className="appearance-none p-1"
+            className="appearance-none p-1 flex items-center"
             onClick={liked ? () => unlike(liked.id) : like}
           >
             {liked ? (
@@ -56,11 +56,9 @@ export default function Reactions({
           </svg>
         )}
       </div>
-      <span className="text-sm text-purple-500 leading-none">{count}</span>
+      <span className="text-sm text-primary-500 py-1">{count}</span>
       {liked && (
-        <span className="ml-2 text-sm text-gray-500 leading-none">
-          You like this
-        </span>
+        <span className="ml-2 text-sm text-gray-500 py-1">You like this</span>
       )}
     </div>
   );

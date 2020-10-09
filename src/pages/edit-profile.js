@@ -52,7 +52,7 @@ export default function EditProfilePage() {
   return (
     <Layout>
       <div className="py-6">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+        <h1 className="text-2xl md:text-3xl font-semibold text-primary-500">
           Edit profile
         </h1>
       </div>
@@ -73,7 +73,7 @@ export default function EditProfilePage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-purple-500 text-white p-3 rounded"
+            className="bg-primary-500 text-white p-3 rounded"
           >
             Save
           </button>

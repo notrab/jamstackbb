@@ -34,11 +34,11 @@ export default function PostForm({ defaultValues, onSubmit }) {
         />
         {errors.message && <span>{errors.message.message}</span>}
       </div>
-      <div>
+      <div className="py-3 md:py-6">
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-purple-500 text-white p-3 rounded"
+          className="bg-primary-500 text-white p-3 rounded"
         >
           Reply
         </button>

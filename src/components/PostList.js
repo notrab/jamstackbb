@@ -4,7 +4,7 @@ export default function PostList({ posts, ...props }) {
   if (!posts) return null;
 
   return (
-    <div className="py-6 md:py-12 divide-y">
+    <div className="pt-3 md:pt-6 md:divide-y md:divide-gray-200">
       {posts.map((p) => (
         <Post key={p.id} {...p} {...props} />
       ))}

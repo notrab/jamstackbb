@@ -8,43 +8,54 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <header className="bg-gray-900">
+      <header className="bg-primary-800">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center justify-between py-6">
             <div className="flex space-x-1">
               <Link href="/">
-                <a className="text-gray-100">Home</a>
+                <a className="text-gray-100 hover:text-white">Home</a>
               </Link>
               {isAuthenticated ? (
-                <span className="flex space-x-1 text-gray-100">
+                <span className="flex space-x-1">
                   <Link href="/edit-profile">
-                    <a>{user.name}</a>
+                    <a className="text-gray-100 hover:text-white">
+                      {user.name}
+                    </a>
                   </Link>
-                  <button onClick={logout}>Logout</button>
+                  <button
+                    onClick={logout}
+                    className="appearance-none text-gray-100 hover:text-white"
+                  >
+                    Logout
+                  </button>
                   <Link href="/new">
-                    <a>Post new thread</a>
+                    <a className="text-gray-100 hover:text-white">
+                      Post new thread
+                    </a>
                   </Link>
                 </span>
               ) : (
                 <>
                   <Link href="/login">
-                    <a>Login</a>
+                    <a className="text-gray-100 hover:text-white">Login</a>
                   </Link>
                   <Link href="/register">
-                    <a>Register</a>
+                    <a className="text-gray-100 hover:text-white">Register</a>
                   </Link>
                 </>
               )}
             </div>
-            <div className="flex items-center space-x-3 text-gray-100">
+            <div className="flex items-center space-x-3">
               <Link href="/today">
-                <a>Today's Posts</a>
+                <a className="text-gray-100 hover:text-white">Today's Posts</a>
               </Link>
               <Link href="/answered">
-                <a>Answered Posts</a>
+                <a className="text-gray-100 hover:text-white">Answered Posts</a>
               </Link>
               <Link href="/unanswered">
-                <a>Uanswered Posts</a>
+                <a className="text-gray-100 hover:text-white">
+                  Uanswered Posts
+                </a>
               </Link>
             </div>
           </div>

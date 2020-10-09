@@ -105,7 +105,7 @@ export default function CategoryPage({ initialData }) {
   return (
     <Layout>
       <div className="py-6">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+        <h1 className="text-2xl md:text-3xl font-semibold text-primary-500">
           {data.categories_by_pk.name}
         </h1>
       </div>

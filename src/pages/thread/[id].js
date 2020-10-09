@@ -324,7 +324,7 @@ export default function ThreadPage({ initialData }) {
   return (
     <Layout>
       <div className="py-6">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
           {data.threads_by_pk.title}
         </h1>
       </div>
@@ -336,7 +336,7 @@ export default function ThreadPage({ initialData }) {
           </span>
         )}
         {data.threads_by_pk.answered && (
-          <span className="bg-green-300 text-green-800 px-2 py-1 rounded-full uppercase text-xs">
+          <span className="bg-primary-300 text-primary-800 px-2 py-1 rounded-full uppercase text-xs">
             Answered
           </span>
         )}
@@ -365,11 +365,11 @@ export default function ThreadPage({ initialData }) {
         actions={{ handleLike, handleUnlike, handleUpdate, handleDelete }}
       />
       {!data.threads_by_pk.locked && isAuthenticated && (
-        <div className="p-6 flex space-x-3">
+        <div className="py-4 md:p-5 flex items-start space-x-5 border-t border-primary-100">
           <div>
-            <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
+            <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-200">
               <svg
-                className="h-full w-full text-gray-300"
+                className="h-full w-full text-gray-600"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >

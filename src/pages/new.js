@@ -86,7 +86,7 @@ export default function NewThreadPage({ categories }) {
   return (
     <Layout>
       <div className="py-6">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+        <h1 className="text-2xl md:text-3xl font-semibold text-primary-500">
           Post new thread
         </h1>
       </div>

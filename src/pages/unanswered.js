@@ -66,7 +66,7 @@ export default function AnsweredPostsPage({ initialData }) {
   return (
     <Layout>
       <div className="py-6">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+        <h1 className="text-2xl md:text-3xl font-semibold text-primary-500">
           Uanswered posts
         </h1>
       </div>

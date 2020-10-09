@@ -50,11 +50,14 @@ export default function Post({
   };
 
   return (
-    <div id={`post-${id}`} className="p-6 flex space-x-3">
+    <div
+      id={`post-${id}`}
+      className="py-4 md:p-5 flex items-start space-x-5 md:hover:bg-gray-100"
+    >
       <div>
-        <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
+        <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-200">
           <svg
-            className="h-full w-full text-gray-300"
+            className="h-full w-full text-gray-600"
             fill="currentColor"
             viewBox="0 0 24 24"
           >
@@ -65,7 +68,9 @@ export default function Post({
       <div className="flex-1">
         <div className="flex justify-between">
           <div className="pb-3">
-            <h3 className="text-xl font-semibold">{author.name}</h3>
+            <h3 className="md:text-lg font-semibold text-gray-800">
+              {author.name}
+            </h3>
           </div>
           <div>
             {isAuthor && (
@@ -99,16 +104,14 @@ export default function Post({
           {editing ? (
             <PostForm defaultValues={{ message }} onSubmit={saveAndUpdate} />
           ) : (
-            <Markdown source={message} />
+            <Markdown source={message} className="prose" />
           )}
         </div>
-        <div className="pt-6">
-          <span className="text-sm text-gray-600">
-            Posted {formattedCreatedAt}
-          </span>
+        <div className="pt-6 text-xs text-gray-600">
+          <span>Posted {formattedCreatedAt}</span>
           {updated && (
-            <span className="text-sm text-gray-600">
-              , and updated {formattedUpdatedAt}
+            <span className="italic ml-1">
+              &mdash; Updated {formattedUpdatedAt}
             </span>
           )}
         </div>

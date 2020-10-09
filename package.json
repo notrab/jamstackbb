@@ -7,6 +7,7 @@
     "build": "next build"
   },
   "dependencies": {
+    "@tailwindcss/typography": "0.2.0",
     "bcryptjs": "2.4.3",
     "date-fns": "2.16.1",
     "graphql": "15.3.0",
