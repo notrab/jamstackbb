@@ -15,37 +15,45 @@ const GetCategoryIds = gql`
 `;
 
 const GetCategoryById = gql`
+  fragment Thread on threads {
+    id
+    title
+    answered
+    locked
+    pinned
+    author {
+      name
+    }
+    posts(limit: 1, order_by: { created_at: desc }) {
+      id
+      message
+      created_at
+      author {
+        name
+      }
+    }
+    posts_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+
   query GetCategoryById($id: uuid!) {
     categories_by_pk(id: $id) {
       id
       name
-      threads(
-        order_by: {
-          pinned: desc
-          posts_aggregate: { max: { created_at: desc } }
-        }
+      pinned: threads(
+        where: { pinned: { _eq: true } }
+        order_by: { posts_aggregate: { max: { created_at: desc } } }
       ) {
-        id
-        title
-        answered
-        locked
-        pinned
-        author {
-          name
-        }
-        posts(limit: 1, order_by: { created_at: desc }) {
-          id
-          message
-          created_at
-          author {
-            name
-          }
-        }
-        posts_aggregate {
-          aggregate {
-            count
-          }
-        }
+        ...Thread
+      }
+      threads(
+        where: { pinned: { _neq: true } }
+        order_by: { posts_aggregate: { max: { created_at: desc } } }
+      ) {
+        ...Thread
       }
     }
   }
@@ -96,10 +104,13 @@ export default function CategoryPage({ initialData }) {
 
   return (
     <Layout>
-      <h1 className="text-2xl md:text-3xl font-semibold">
-        {data.categories_by_pk.name}
-      </h1>
+      <div className="py-6">
+        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+          {data.categories_by_pk.name}
+        </h1>
+      </div>
 
+      <ThreadList threads={data.categories_by_pk.pinned} />
       <ThreadList threads={data.categories_by_pk.threads} />
     </Layout>
   );

@@ -8,27 +8,33 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <header className="bg-white py-6 shadow-sm">
+      <header className="bg-gray-900">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between py-6">
             <div className="flex space-x-1">
               <Link href="/">
-                <a>Home</a>
+                <a className="text-gray-100">Home</a>
               </Link>
               {isAuthenticated ? (
-                <span className="flex space-x-1">
+                <span className="flex space-x-1 text-gray-100">
                   <p>Hello {user.name}</p>
                   <button onClick={logout}>Logout</button>
-                  <Link href="/new">Post new thread</Link>
+                  <Link href="/new">
+                    <a>Post new thread</a>
+                  </Link>
                 </span>
               ) : (
                 <>
-                  <Link href="/login">Login</Link>
-                  <Link href="/register">Register</Link>
+                  <Link href="/login">
+                    <a>Login</a>
+                  </Link>
+                  <Link href="/register">
+                    <a>Register</a>
+                  </Link>
                 </>
               )}
             </div>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 text-gray-100">
               <Link href="/today">
                 <a>Today's Posts</a>
               </Link>

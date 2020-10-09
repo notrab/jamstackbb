@@ -298,9 +298,12 @@ export default function ThreadPage({ initialData }) {
 
   return (
     <Layout>
-      <h1 className="text-2xl md:text-3xl font-semibold">
-        {data.threads_by_pk.title}
-      </h1>
+      <div className="py-6">
+        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+          {data.threads_by_pk.title}
+        </h1>
+      </div>
+
       <div className="flex items-center">
         {data.threads_by_pk.locked && (
           <span className="bg-red-300 text-red-800 px-2 py-1 rounded-full uppercase text-xs">

@@ -65,7 +65,11 @@ export default function AnsweredPostsPage({ initialData }) {
 
   return (
     <Layout>
-      <h1 className="text-3xl">Unanswered posts</h1>
+      <div className="py-6">
+        <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">
+          Uanswered posts
+        </h1>
+      </div>
       <ThreadList threads={data.threads} />
     </Layout>
   );
