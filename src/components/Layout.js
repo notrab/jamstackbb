@@ -17,7 +17,9 @@ export default function Layout({ children }) {
               </Link>
               {isAuthenticated ? (
                 <span className="flex space-x-1 text-gray-100">
-                  <p>Hello {user.name}</p>
+                  <Link href="/edit-profile">
+                    <a>{user.name}</a>
+                  </Link>
                   <button onClick={logout}>Logout</button>
                   <Link href="/new">
                     <a>Post new thread</a>
