@@ -19,6 +19,7 @@ const InsertUser = gql`
       id
       name
       email
+      last_seen
     }
   }
 `;
