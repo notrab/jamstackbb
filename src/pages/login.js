@@ -16,7 +16,7 @@ export default function RegisterPage() {
     errors,
     formState: { isSubmitting },
     setError,
-  } = useForm();
+  } = useForm({ defaultValues: { save_last_seen: true } });
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -24,9 +24,9 @@ export default function RegisterPage() {
     }
   }, [isAuthenticated]);
 
-  const onSubmit = async ({ email, password }) => {
+  const onSubmit = async ({ email, password, save_last_seen }) => {
     try {
-      await login({ email, password });
+      await login({ email, password, save_last_seen });
 
       router.push("/");
     } catch ({ message }) {
@@ -74,7 +74,6 @@ export default function RegisterPage() {
               id="save_last_seen"
               name="save_last_seen"
               ref={register}
-              defaultChecked={true}
             />
             Show as online to other users
           </label>
