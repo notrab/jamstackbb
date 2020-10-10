@@ -14,6 +14,7 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   token: null,
+  save_last_seen: false,
 };
 
 function reducer(state, { payload, type }) {
@@ -47,7 +48,7 @@ function AuthProvider({ children }) {
     saveAuthState(state);
   }, [state, saveAuthState]);
 
-  const login = async ({ email, password }) => {
+  const login = async ({ email, password, save_last_seen }) => {
     const res = await fetch("/api/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
@@ -62,10 +63,10 @@ function AuthProvider({ children }) {
 
     const { token, ...user } = json;
 
-    dispatch({ type: LOGIN_SUCCESS, payload: { token, user } });
+    dispatch({ type: LOGIN_SUCCESS, payload: { token, user, save_last_seen } });
   };
 
-  const register = async ({ name, email, password }) => {
+  const register = async ({ name, email, password, save_last_seen }) => {
     const res = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify({ name, email, password }),
@@ -80,7 +81,7 @@ function AuthProvider({ children }) {
 
     const { token, ...user } = json;
 
-    dispatch({ type: LOGIN_SUCCESS, payload: { token, user } });
+    dispatch({ type: LOGIN_SUCCESS, payload: { token, user, save_last_seen } });
   };
 
   const updateUser = (payload) => dispatch({ type: UPDATE_USER, payload });

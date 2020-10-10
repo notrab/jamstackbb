@@ -68,6 +68,18 @@ export default function RegisterPage() {
           {errors.password && <span>{errors.password.message}</span>}
         </div>
         <div>
+          <label htmlFor="save_last_seen">
+            <input
+              type="checkbox"
+              id="save_last_seen"
+              name="save_last_seen"
+              ref={register}
+              defaultChecked={true}
+            />
+            Show as online to other users
+          </label>
+        </div>
+        <div>
           <button type="submit" disabled={isSubmitting}>
             Login
           </button>
