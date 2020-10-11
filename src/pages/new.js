@@ -11,9 +11,13 @@ import Layout from "../components/Layout";
 
 const GetCategories = gql`
   {
-    categories {
+    categories(where: { category_id: { _is_null: true } }) {
       id
       name
+      subCategories {
+        id
+        name
+      }
     }
   }
 `;
@@ -92,34 +96,52 @@ export default function NewThreadPage({ categories }) {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <select
-            name="categoryId"
-            id="categoryId"
-            ref={register({
-              required: "You must select a category for your thread",
-            })}
-          >
-            {categories.map(({ id, name }) => (
-              <option value={id} key={id}>
-                {name}
-              </option>
-            ))}
-          </select>
-          {errors.categoryId && <span>{errors.categoryId.message}</span>}
+        <div className="py-3 flex space-x-3">
+          <div className="md:w-1/5">
+            <div className="bg-gray-200 py-2 px-3 rounded-lg w-full">
+              <select
+                name="categoryId"
+                id="categoryId"
+                ref={register({
+                  required: "You must select a category for your thread",
+                })}
+                className="appearance-none bg-transparent w-full"
+              >
+                {categories.map(({ id, name, subCategories }) => (
+                  <>
+                    <option value={id} key={id}>
+                      {name}
+                    </option>
+                    {subCategories.length > 0 && (
+                      <optgroup label="Sub categories">
+                        {subCategories.map(({ id, name }) => (
+                          <option value={id} key={id}>
+                            {name}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                  </>
+                ))}
+              </select>
+            </div>
+            {errors.categoryId && <span>{errors.categoryId.message}</span>}
+          </div>
+
+          <div className="flex-1">
+            <input
+              name="title"
+              id="title"
+              ref={register({
+                required: "You must provide a title.",
+              })}
+              placeholder="Title"
+              className="bg-gray-200 py-2 px-3 rounded-lg w-full"
+            />
+            {errors.title && <span>{errors.title.message}</span>}
+          </div>
         </div>
-        <div>
-          <input
-            name="title"
-            id="title"
-            ref={register({
-              required: "You must provide a title.",
-            })}
-            placeholder="Title"
-          />
-          {errors.title && <span>{errors.title.message}</span>}
-        </div>
-        <div>
+        <div className="py-3">
           <Controller
             control={control}
             name="message"
@@ -139,7 +161,7 @@ export default function NewThreadPage({ categories }) {
           />
           {errors.message && <span>{errors.message.message}</span>}
         </div>
-        <div>
+        <div className="py-3">
           <button
             type="submit"
             disabled={isSubmitting}
