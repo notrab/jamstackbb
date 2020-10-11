@@ -18,7 +18,7 @@ export default function Reactions({
     : false;
 
   return (
-    <div className="pt-3 flex items-center">
+    <div className="flex items-center">
       <div className="text-primary-500 mr-2">
         {isAuthenticated ? (
           <button

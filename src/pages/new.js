@@ -143,7 +143,7 @@ export default function NewThreadPage({ categories }) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-purple-500 text-white p-3 rounded"
+            className="bg-primary-500 text-white p-3 rounded"
           >
             Post
           </button>

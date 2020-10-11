@@ -8,7 +8,7 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <header className="bg-primary-800">
+      <header className="bg-primary-500">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center justify-between py-6">
             <div className="flex space-x-1">
@@ -45,7 +45,7 @@ export default function Layout({ children }) {
                 </>
               )}
             </div>
-            <div className="flex items-center space-x-3">
+            <div className="hidden md:flex items-center space-x-3">
               <Link href="/today">
                 <a className="text-gray-100 hover:text-white">Today's Posts</a>
               </Link>

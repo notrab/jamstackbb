@@ -365,7 +365,7 @@ export default function ThreadPage({ initialData }) {
         actions={{ handleLike, handleUnlike, handleUpdate, handleDelete }}
       />
       {!data.threads_by_pk.locked && isAuthenticated && (
-        <div className="py-4 md:p-5 flex items-start space-x-5 border-t border-primary-100">
+        <div className="py-4 md:py-5 flex items-start space-x-5 border-t border-primary-100">
           <div>
             <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-200">
               <svg
