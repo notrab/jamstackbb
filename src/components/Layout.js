@@ -8,28 +8,28 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <header className="bg-primary-500">
+      <header className="py-6 md:py-8">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="flex items-center justify-between py-6">
+          <div className="bg-gray-200 rounded-lg flex items-center justify-between px-4 py-3">
             <div className="flex space-x-1">
               <Link href="/">
-                <a className="text-gray-100 hover:text-white">Home</a>
+                <a className="text-gray-600 hover:text-primary-500">Home</a>
               </Link>
               {isAuthenticated ? (
                 <span className="flex space-x-1">
                   <Link href="/edit-profile">
-                    <a className="text-gray-100 hover:text-white">
+                    <a className="text-gray-600 hover:text-primary-500">
                       {user.name}
                     </a>
                   </Link>
                   <button
                     onClick={logout}
-                    className="appearance-none text-gray-100 hover:text-white"
+                    className="appearance-none text-gray-600 hover:text-primary-500"
                   >
                     Logout
                   </button>
                   <Link href="/new">
-                    <a className="text-gray-100 hover:text-white">
+                    <a className="text-gray-600 hover:text-primary-500">
                       Post new thread
                     </a>
                   </Link>
@@ -37,23 +37,31 @@ export default function Layout({ children }) {
               ) : (
                 <>
                   <Link href="/login">
-                    <a className="text-gray-100 hover:text-white">Login</a>
+                    <a className="text-gray-600 hover:text-primary-500">
+                      Login
+                    </a>
                   </Link>
                   <Link href="/register">
-                    <a className="text-gray-100 hover:text-white">Register</a>
+                    <a className="text-gray-600 hover:text-primary-500">
+                      Register
+                    </a>
                   </Link>
                 </>
               )}
             </div>
             <div className="hidden md:flex items-center space-x-3">
               <Link href="/today">
-                <a className="text-gray-100 hover:text-white">Today's Posts</a>
+                <a className="text-gray-600 hover:text-primary-500">
+                  Today's Posts
+                </a>
               </Link>
               <Link href="/answered">
-                <a className="text-gray-100 hover:text-white">Answered Posts</a>
+                <a className="text-gray-600 hover:text-primary-500">
+                  Answered Posts
+                </a>
               </Link>
               <Link href="/unanswered">
-                <a className="text-gray-100 hover:text-white">
+                <a className="text-gray-600 hover:text-primary-500">
                   Uanswered Posts
                 </a>
               </Link>
