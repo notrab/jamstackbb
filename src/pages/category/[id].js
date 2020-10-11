@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
@@ -43,6 +44,10 @@ const GetCategoryById = gql`
     categories_by_pk(id: $id) {
       id
       name
+      subCategories {
+        id
+        name
+      }
       pinned: threads(
         where: { pinned: { _eq: true } }
         order_by: { posts_aggregate: { max: { created_at: desc } } }
@@ -109,6 +114,12 @@ export default function CategoryPage({ initialData }) {
           {data.categories_by_pk.name}
         </h1>
       </div>
+
+      {data.categories_by_pk.subCategories.map(({ id, name }) => (
+        <Link key={id} href={`/category/${id}`}>
+          {name}
+        </Link>
+      ))}
 
       <ThreadList threads={data.categories_by_pk.pinned} />
       <ThreadList threads={data.categories_by_pk.threads} />
