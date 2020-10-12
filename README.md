@@ -2,7 +2,7 @@
 
 Bulletin Board software powered by Next.js and GraphQL.
 
-## Why JamstackBB?
+## Why JamstackBB?
 
 - Blazing-fast bulletin board software powered by Next.js
 - Static-first pages with automatic page revalidation
