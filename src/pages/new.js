@@ -11,7 +11,7 @@ import Layout from "../components/Layout";
 
 const GetCategories = gql`
   {
-    categories(where: { category_id: { _is_null: true } }) {
+    categories(where: { parent_id: { _is_null: true } }) {
       id
       name
       sub_categories {
