@@ -44,7 +44,7 @@ const GetCategoryById = gql`
     categories_by_pk(id: $id) {
       id
       name
-      subCategories {
+      sub_categories {
         id
         name
       }
@@ -115,7 +115,7 @@ export default function CategoryPage({ initialData }) {
         </h1>
       </div>
 
-      {data.categories_by_pk.subCategories.map(({ id, name }) => (
+      {data.categories_by_pk.sub_categories.map(({ id, name }) => (
         <Link key={id} href={`/category/${id}`}>
           {name}
         </Link>

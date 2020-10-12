@@ -14,7 +14,7 @@ const GetCategories = gql`
     categories(where: { category_id: { _is_null: true } }) {
       id
       name
-      subCategories {
+      sub_categories {
         id
         name
       }
@@ -107,21 +107,19 @@ export default function NewThreadPage({ categories }) {
                 })}
                 className="appearance-none bg-transparent w-full"
               >
-                {categories.map(({ id, name, subCategories }) => (
-                  <>
-                    <option value={id} key={id}>
-                      {name}
-                    </option>
-                    {subCategories.length > 0 && (
+                {categories.map(({ id, name, sub_categories }) => (
+                  <React.Fragment key={id}>
+                    <option value={id}>{name}</option>
+                    {sub_categories.length > 0 && (
                       <optgroup label="Sub categories">
-                        {subCategories.map(({ id, name }) => (
+                        {sub_categories.map(({ id, name }) => (
                           <option value={id} key={id}>
                             {name}
                           </option>
                         ))}
                       </optgroup>
                     )}
-                  </>
+                  </React.Fragment>
                 ))}
               </select>
             </div>
