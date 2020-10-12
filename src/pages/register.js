@@ -24,6 +24,8 @@ export default function RegisterPage() {
     }
   }, [isAuthenticated]);
 
+  if (isAuthenticated) return null;
+
   const onSubmit = async ({ name, email, password, save_last_seen }) => {
     try {
       await createUser({ name, email, password, save_last_seen });

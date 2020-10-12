@@ -114,7 +114,7 @@ export default function Post({
             )}
           </div>
           <div className="pt-3 md:pt-6">
-            <div className="inline-block bg-gray-100 rounded-full px-3 py-1">
+            <div className="inline-block bg-gray-200 rounded-full px-3 py-1">
               <Reactions
                 postId={id}
                 likes={likes}

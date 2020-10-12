@@ -5,10 +5,14 @@ import { useAuthState } from "../context/auth";
 import { gql, hasuraUserClient } from "../lib/hasura-user-client";
 
 const UpdateUserLastSeen = gql`
-  mutation UpdateUserLastSeen($id: uuid!, $now: timestamptz!) {
-    update_users(where: { id: { _eq: $id } }, _set: { last_seen: $now }) {
+  mutation UpdateUserLastSeen($id: uuid!, $now: timestamptz!, $url: String) {
+    update_users(
+      where: { id: { _eq: $id } }
+      _set: { last_seen: $now, last_seen_url: $url }
+    ) {
       returning {
         last_seen
+        last_seen_url
       }
     }
   }
@@ -25,12 +29,13 @@ export default function LastSeen({ children }) {
     return () => Router.events.off("routeChangeComplete", updateLastSeen);
   }, [isAuthenticated, save_last_seen]);
 
-  const updateLastSeen = async () => {
+  const updateLastSeen = async (url) => {
     const hasura = hasuraUserClient();
 
     await hasura.request(UpdateUserLastSeen, {
       id: user.id,
       now: new Date().toISOString(),
+      url,
     });
   };
 

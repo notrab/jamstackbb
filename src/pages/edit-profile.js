@@ -32,8 +32,10 @@ export default function EditProfilePage() {
   } = useForm({ defaultValues: user });
 
   useEffect(() => {
-    if (!isAuthenticated) return router.push("/");
-  }, []);
+    if (!isAuthenticated) router.push("/");
+  }, [isAuthenticated]);
+
+  if (!isAuthenticated) return null;
 
   const onSubmit = async ({ name }) => {
     try {

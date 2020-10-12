@@ -121,7 +121,10 @@ export default function CategoryPage({ initialData }) {
         </Link>
       ))}
 
-      <ThreadList threads={data.categories_by_pk.pinned} />
+      <ThreadList
+        threads={data.categories_by_pk.pinned}
+        className="md:border-t md:border-b"
+      />
       <ThreadList threads={data.categories_by_pk.threads} />
     </Layout>
   );

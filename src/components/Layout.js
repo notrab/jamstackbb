@@ -71,6 +71,12 @@ export default function Layout({ children }) {
       </header>
 
       <div className="max-w-4xl mx-auto p-6">{children}</div>
+
+      <footer className="max-w-4xl mx-auto p-6">
+        <div className="border-t pt-6 text-center text-sm text-gray-600">
+          &copy; JamstackBB &mdash; 0.1.0
+        </div>
+      </footer>
     </>
   );
 }

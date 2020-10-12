@@ -58,7 +58,7 @@ export default function Reactions({
       </div>
       <span className="text-sm text-primary-500 py-1">{count}</span>
       {liked && (
-        <span className="ml-2 text-sm text-gray-500 py-1">You like this</span>
+        <span className="ml-2 text-sm text-gray-600 py-1">You like this</span>
       )}
     </div>
   );

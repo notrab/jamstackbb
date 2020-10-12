@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useForm, Controller } from "react-hook-form";
 import ReactMde from "react-mde";
 import Markdown from "react-markdown";
 
+import { useAuthState } from "../context/auth";
 import { gql, hasuraAdminClient } from "../lib/hasura-admin-client";
 import { hasuraUserClient } from "../lib/hasura-user-client";
 
@@ -63,6 +64,7 @@ export const getStaticProps = async () => {
 
 export default function NewThreadPage({ categories }) {
   const router = useRouter();
+  const { isAuthenticated, user } = useAuthState();
   const hasura = hasuraUserClient();
   const {
     handleSubmit,
@@ -72,6 +74,12 @@ export default function NewThreadPage({ categories }) {
     formState: { isSubmitting },
   } = useForm();
   const [selectedTab, setSelectedTab] = useState("write");
+
+  useEffect(() => {
+    if (!isAuthenticated) router.push("/");
+  }, [isAuthenticated]);
+
+  if (!isAuthenticated) return null;
 
   const onSubmit = async ({ categoryId, title, message }) => {
     try {
