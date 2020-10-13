@@ -50,6 +50,9 @@ export default function Layout({ children }) {
               )}
             </div>
             <div className="hidden md:flex items-center space-x-3">
+              <Link href="/members">
+                <a className="text-gray-600 hover:text-primary-500">Members</a>
+              </Link>
               <Link href="/today">
                 <a className="text-gray-600 hover:text-primary-500">
                   Today's Posts
