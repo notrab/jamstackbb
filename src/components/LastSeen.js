@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 import { useAuthState } from "../context/auth";
 import { gql, hasuraUserClient } from "../lib/hasura-user-client";
@@ -19,14 +19,17 @@ const UpdateUserLastSeen = gql`
 `;
 
 export default function LastSeen({ children }) {
+  const router = useRouter();
   const { isAuthenticated, user, save_last_seen } = useAuthState();
 
   useEffect(() => {
     if (!isAuthenticated || !save_last_seen) return;
 
-    Router.events.on("routeChangeComplete", updateLastSeen);
+    updateLastSeen(router.pathname);
 
-    return () => Router.events.off("routeChangeComplete", updateLastSeen);
+    router.events.on("routeChangeComplete", updateLastSeen);
+
+    return () => router.events.off("routeChangeComplete", updateLastSeen);
   }, [isAuthenticated, save_last_seen]);
 
   const updateLastSeen = async (url) => {
