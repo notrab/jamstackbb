@@ -1,6 +1,12 @@
 import Link from "next/link";
 import formatRelative from "date-fns/formatRelative";
 
+import PinSVG from "../svg/pin.svg";
+import DoubleCheckSVG from "../svg/double-check.svg";
+import LockSVG from "../svg/lock.svg";
+import ChatBubbleSVG from "../svg/chat-bubble.svg";
+import ArrowRightSVG from "../svg/arrow-right.svg";
+
 const today = new Date();
 
 export default function Thread({
@@ -44,14 +50,7 @@ export default function Thread({
                 </h3>
                 {pinned && (
                   <span className="ml-1 text-orange-500">
-                    <svg
-                      className="w-4 h-4 fill-current"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M22.314 10.172l-1.415 1.414-.707-.707-4.242 4.242-.707 3.536-1.415 1.414-4.242-4.243-4.95 4.95-1.414-1.414 4.95-4.95-4.243-4.242 1.414-1.415L8.88 8.05l4.242-4.242-.707-.707 1.414-1.415z" />
-                    </svg>
+                    <PinSVG className="w-4 h-4" />
                   </span>
                 )}
               </div>
@@ -79,54 +78,26 @@ export default function Thread({
             <div className="hidden md:flex md:items-center md:space-x-3">
               {answered && (
                 <span className="md:inline-flex items-center text-green-600 text-xs rounded-full">
-                  <svg
-                    className="w-3 h-3 fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M11.602 13.76l1.412 1.412 8.466-8.466 1.414 1.414-9.88 9.88-6.364-6.364 1.414-1.414 2.125 2.125 1.413 1.412zm.002-2.828l4.952-4.953 1.41 1.41-4.952 4.953-1.41-1.41zm-2.827 5.655L7.364 18 1 11.636l1.414-1.414 1.413 1.413-.001.001 4.951 4.951z" />
-                  </svg>
+                  <DoubleCheckSVG className="w-3 h-3" />
                   <span className="ml-1">Answered</span>
                 </span>
               )}
 
               {locked && (
                 <span className="md:inline-flex items-center text-red-700 text-xs rounded-full">
-                  <svg
-                    className="w-3 h-3 fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M19 10h1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1h1V9a7 7 0 1 1 14 0v1zm-2 0V9A5 5 0 0 0 7 9v1h10zm-6 4v4h2v-4h-2z" />
-                  </svg>
+                  <LockSVG className="w-3 h-3" />
                   <span className="ml-1">Locked</span>
                 </span>
               )}
 
               {hasReplies && (
                 <span className="hidden md:inline-flex items-center text-gray-500 group-hover:text-white text-xs bg-gray-200 group-hover:bg-primary-500 rounded-full py-1 px-2 transition-colors duration-100 ease-in-out">
-                  <svg
-                    className="fill-current w-3 h-3"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M7.291 20.824L2 22l1.176-5.291A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10a9.956 9.956 0 0 1-4.709-1.176zm.29-2.113l.653.35A7.955 7.955 0 0 0 12 20a8 8 0 1 0-8-8c0 1.334.325 2.618.94 3.766l.349.653-.655 2.947 2.947-.655z" />
-                  </svg>
+                  <ChatBubbleSVG className="w-4 h-4" />
                   <span className="ml-1">{count}</span>
                 </span>
               )}
 
-              <svg
-                className="text-gray-300 group-hover:text-primary-500 fill-current w-8 h-8 transition-colors duration-100 ease-in-out"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M13.172 12l-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414z" />
-              </svg>
+              <ArrowRightSVG className="text-gray-300 group-hover:text-primary-500 w-8 h-8 transition-colors duration-100 ease-in-out" />
             </div>
           </a>
         </Link>
