@@ -13,7 +13,12 @@ export default function Layout({ children }) {
           <div className="bg-gray-200 rounded-lg flex items-center justify-between px-4 py-3">
             <div className="flex space-x-1">
               <Link href="/">
-                <a className="text-gray-600 hover:text-primary-500">Home</a>
+                <a className="text-gray-600 hover:text-primary-500">Recent</a>
+              </Link>
+              <Link href="/categories">
+                <a className="text-gray-600 hover:text-primary-500">
+                  Categories
+                </a>
               </Link>
               {isAuthenticated ? (
                 <span className="flex space-x-1">
@@ -30,7 +35,7 @@ export default function Layout({ children }) {
                   </button>
                   <Link href="/new">
                     <a className="text-gray-600 hover:text-primary-500">
-                      Post new thread
+                      New thread
                     </a>
                   </Link>
                 </span>

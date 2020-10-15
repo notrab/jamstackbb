@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
@@ -24,6 +25,10 @@ const GetThreadById = gql`
       title
       locked
       answered
+      category {
+        id
+        name
+      }
       author {
         id
       }
@@ -190,57 +195,45 @@ export default function ThreadPage({ initialData }) {
 
   const isAuthor = isAuthenticated && data.threads_by_pk.author.id === user.id;
 
-  const handlePost = async ({ message }, { target }) => {
-    try {
-      const { insert_posts_one } = await hasura.request(InsertPost, {
-        threadId: id,
-        message,
-      });
+  const handlePost = async ({ message }) => {
+    const { insert_posts_one } = await hasura.request(InsertPost, {
+      threadId: id,
+      message,
+    });
 
-      mutate({
-        ...data,
-        threads_by_pk: {
-          ...data.threads_by_pk,
-          posts: [...data.threads_by_pk.posts, insert_posts_one],
-        },
-      });
-
-      target.reset();
-    } catch (err) {
-      console.log(err);
-    }
+    mutate({
+      ...data,
+      threads_by_pk: {
+        ...data.threads_by_pk,
+        posts: [...data.threads_by_pk.posts, insert_posts_one],
+      },
+    });
   };
 
-  const handleUpdate = async ({ id, message }, { target }) => {
-    try {
-      const { update_posts_by_pk } = await hasura.request(UpdatePost, {
-        id,
-        message,
-      });
+  const handleUpdate = async ({ id, message }) => {
+    const { update_posts_by_pk } = await hasura.request(UpdatePost, {
+      id,
+      message,
+    });
 
-      mutate({
-        ...data,
-        threads_by_pk: {
-          ...data.threads_by_pk,
-          posts: data.threads_by_pk.posts.reduce((posts, post) => {
-            if (post.id === id)
-              return [
-                ...posts,
-                {
-                  ...post,
-                  ...update_posts_by_pk,
-                },
-              ];
+    mutate({
+      ...data,
+      threads_by_pk: {
+        ...data.threads_by_pk,
+        posts: data.threads_by_pk.posts.reduce((posts, post) => {
+          if (post.id === id)
+            return [
+              ...posts,
+              {
+                ...post,
+                ...update_posts_by_pk,
+              },
+            ];
 
-            return [...posts, post];
-          }, []),
-        },
-      });
-
-      target.reset();
-    } catch (err) {
-      console.log(err);
-    }
+          return [...posts, post];
+        }, []),
+      },
+    });
   };
 
   const handleLock = async () => {
@@ -323,10 +316,16 @@ export default function ThreadPage({ initialData }) {
 
   return (
     <Layout>
-      <div className="py-6">
-        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">
+      <div className="py-6 border-b border-primary-100">
+        <h1 className="text-2xl md:text-3xl font-semibold text-primary-500">
           {data.threads_by_pk.title}
         </h1>
+        <p className="text-gray-600">
+          Posted in{" "}
+          <Link href={`/category/${data.threads_by_pk.category.id}`}>
+            <a className="text-">{data.threads_by_pk.category.name}</a>
+          </Link>
+        </p>
       </div>
 
       <div className="flex items-center">

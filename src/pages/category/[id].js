@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
 import Layout from "../../components/Layout";
+import CategoryList from "../../components/CategoryList";
 import ThreadList from "../../components/ThreadList";
 
 import { gql, hasuraUserClient } from "../../lib/hasura-user-client";
@@ -47,6 +47,28 @@ const GetCategoryById = gql`
       sub_categories {
         id
         name
+        threads(
+          limit: 1
+          order_by: { posts_aggregate: { max: { created_at: desc } } }
+        ) {
+          title
+          posts(limit: 1, order_by: { created_at: desc }) {
+            author {
+              name
+            }
+            created_at
+          }
+          posts_aggregate {
+            aggregate {
+              count
+            }
+          }
+        }
+        threads_aggregate {
+          aggregate {
+            count
+          }
+        }
       }
       pinned: threads(
         where: { pinned: { _eq: true } }
@@ -115,11 +137,7 @@ export default function CategoryPage({ initialData }) {
         </h1>
       </div>
 
-      {data.categories_by_pk.sub_categories.map(({ id, name }) => (
-        <Link key={id} href={`/category/${id}`}>
-          {name}
-        </Link>
-      ))}
+      <CategoryList categories={data.categories_by_pk.sub_categories} />
 
       <ThreadList
         threads={data.categories_by_pk.pinned}

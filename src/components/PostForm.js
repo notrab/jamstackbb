@@ -9,16 +9,25 @@ export default function PostForm({ defaultValues, onSubmit }) {
     control,
     errors,
     formState: { isSubmitting },
-  } = useForm({ defaultValues });
+    reset,
+  } = useForm({ defaultValues: { message: "", ...defaultValues } });
   const [selectedTab, setSelectedTab] = useState("write");
 
+  const handleOnSubmit = async (values) => {
+    try {
+      await onSubmit(values);
+      reset();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(handleOnSubmit)}>
       <div>
         <Controller
           control={control}
           name="message"
-          defaultValue=""
           rules={{
             required: "You must provide a message to reply.",
           }}
@@ -40,7 +49,7 @@ export default function PostForm({ defaultValues, onSubmit }) {
           disabled={isSubmitting}
           className="bg-primary-500 text-white p-3 rounded"
         >
-          Reply
+          {defaultValues?.message ? "Save" : "Reply"}
         </button>
       </div>
     </form>
