@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -5,6 +6,7 @@ import useSWR from "swr";
 import { useAuthState } from "../../context/auth";
 
 import Layout from "../../components/Layout";
+import EditTitleForm from "../../components/EditTitleForm";
 import PostList from "../../components/PostList";
 import PostForm from "../../components/PostForm";
 
@@ -142,6 +144,16 @@ const DeletePost = gql`
   }
 `;
 
+const UpdateTitle = gql`
+  mutation UpdateTitle($id: uuid!, $title: String!) {
+    update_threads_by_pk(pk_columns: { id: $id }, _set: { title: $title }) {
+      id
+      title
+      updated_at
+    }
+  }
+`;
+
 export const getStaticPaths = async () => {
   const hasura = hasuraUserClient();
 
@@ -176,6 +188,7 @@ export default function ThreadPage({ initialData }) {
   const hasura = hasuraUserClient();
   const router = useRouter();
   const { id, isFallback } = router.query;
+  const [editing, setEditing] = useState(false);
 
   const { data, mutate } = useSWR(
     [GetThreadById, id],
@@ -312,14 +325,35 @@ export default function ThreadPage({ initialData }) {
     });
   };
 
+  const handleUpdateTitle = async ({ title }) => {
+    const { update_threads_by_pk } = await hasura.request(UpdateTitle, {
+      id,
+      title,
+    });
+
+    mutate({
+      ...data,
+      ...update_threads_by_pk,
+    });
+
+    setEditing(false);
+  };
+
   if (isFallback) return <Layout>Loading thread</Layout>;
 
   return (
     <Layout>
       <div className="py-6 border-b border-primary-100">
-        <h1 className="text-2xl md:text-3xl font-semibold text-primary-500">
-          {data.threads_by_pk.title}
-        </h1>
+        {editing ? (
+          <EditTitleForm
+            defaultValues={{ title: data.threads_by_pk.title }}
+            onSubmit={handleUpdateTitle}
+          />
+        ) : (
+          <h1 className="text-2xl md:text-3xl font-semibold text-primary-500">
+            {data.threads_by_pk.title}
+          </h1>
+        )}
         <p className="text-gray-600">
           Posted in{" "}
           <Link href={`/category/${data.threads_by_pk.category.id}`}>
@@ -355,6 +389,14 @@ export default function ThreadPage({ initialData }) {
             >
               Delete thread
             </button>
+            {!editing && (
+              <button
+                onClick={() => setEditing(true)}
+                className="appearance-none p-1"
+              >
+                Edit title
+              </button>
+            )}
           </>
         )}
       </div>

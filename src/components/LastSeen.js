@@ -25,7 +25,7 @@ export default function LastSeen({ children }) {
   useEffect(() => {
     if (!isAuthenticated || !save_last_seen) return;
 
-    updateLastSeen(router.pathname);
+    // updateLastSeen(router.pathname);
 
     router.events.on("routeChangeComplete", updateLastSeen);
 
