@@ -64,13 +64,11 @@ export default function Layout({ children }) {
                 </a>
               </Link>
               <Link href="/answered">
-                <a className="text-gray-600 hover:text-primary-500">
-                  Answered Posts
-                </a>
+                <a className="text-gray-600 hover:text-primary-500">Answered</a>
               </Link>
               <Link href="/unanswered">
                 <a className="text-gray-600 hover:text-primary-500">
-                  Uanswered Posts
+                  Uanswered
                 </a>
               </Link>
             </div>
