@@ -10,7 +10,7 @@ export default function Layout({ children }) {
     <>
       <header className="py-6 md:py-8">
         <div className="max-w-4xl mx-auto px-6">
-          <div className="bg-gray-200 rounded-lg flex items-center justify-between px-4 py-3">
+          <div className="flex items-center justify-between py-3">
             <div className="flex space-x-1">
               <Link href="/">
                 <a className="text-gray-600 hover:text-primary-500">Recent</a>
@@ -82,7 +82,10 @@ export default function Layout({ children }) {
 
       <footer className="max-w-4xl mx-auto p-6">
         <div className="border-t pt-6 text-center text-sm text-gray-600">
-          &copy; JamstackBB &mdash; 0.1.0
+          &copy; JamstackBB &mdash; 0.1.0 &mdash; Built by{" "}
+          <a href="https://notrab.dev" target="_blank">
+            @notrab
+          </a>
         </div>
       </footer>
     </>
